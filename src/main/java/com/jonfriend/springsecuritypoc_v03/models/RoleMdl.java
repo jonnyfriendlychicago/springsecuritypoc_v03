@@ -12,7 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-//imports removed for brevity
 @Entity
 @Table(name = "role")
 public class RoleMdl {
@@ -21,7 +20,7 @@ public class RoleMdl {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-//BEGIN: entity-specific fields
+	// BEGIN: entity-specific fields
 
 	private String name;
 
@@ -29,7 +28,7 @@ public class RoleMdl {
 
 	// BEGIN: joins
 
-//	@ManyToMany(mappedBy = "role_id")
+//	@ManyToMany(mappedBy = "roles")
 //	private List<UserMdl> userMdl;
 
 	// above replaced by below
@@ -41,13 +40,11 @@ public class RoleMdl {
         joinColumns = @JoinColumn(name = "role_id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    
     private List<UserMdl> userMdl;
     
 	// END: joins
 
 	// instantiate the model:
-
 	public RoleMdl() {}
 
 	// BEGIN: getters and setters

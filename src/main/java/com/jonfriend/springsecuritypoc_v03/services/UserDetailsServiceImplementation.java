@@ -1,45 +1,47 @@
 package com.jonfriend.springsecuritypoc_v03.services;
 
-import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import com.jonfriend.springsecuritypoc_v03.models.RoleMdl;
+import com.jonfriend.springsecuritypoc_v03.models.UserMdl;
+import com.jonfriend.springsecuritypoc_v03.repositories.UserRpo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.jonfriend.springsecuritypoc_v03.models.RoleMdl;
-import com.jonfriend.springsecuritypoc_v03.models.UserMdl;
-import com.jonfriend.springsecuritypoc_v03.repositories.UserRpo;
+import org.springframework.stereotype.Service;
 
 
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
-	
+//	make below an autowire, after everything working
 	private UserRpo userRpo;
-    
     public UserDetailsServiceImplementation(UserRpo userRpo){
         this.userRpo = userRpo;
-    }
+    } 
     
-    // 1
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserMdl userMdl = userRpo.findByUsername(username);
+    @Override // loadUserByUsername is a misleading name here because we are using email for login credentials
+
+    //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    //    UserMdl userMdl = userRpo.findByUsername(username);
+        // above replaced by below
+        public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+            UserMdl userMdl = userRpo.findByEmail(email);
         
         if(userMdl == null) {
             throw new UsernameNotFoundException("User not found");
         }
         
-        return new org.springframework.security.core.userdetails.User(userMdl.getUsername(), userMdl.getPassword(), getAuthorities(userMdl));
+        return new org.springframework.security.core.userdetails.User(userMdl.getEmail(), userMdl.getPassword(), getAuthorities(userMdl));
     }
     
-    // 2
     private List<GrantedAuthority> getAuthorities(UserMdl userMdl){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for(RoleMdl role : userMdl.getRoleMdl()) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
+        for(RoleMdl roleMdl : userMdl.getRoleMdl()) {  
+        	// JRF role above shoudl be renamed roleMdl for consistency, back to this later
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(roleMdl.getName());
             authorities.add(grantedAuthority);
         }
         return authorities;

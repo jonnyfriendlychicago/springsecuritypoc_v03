@@ -36,16 +36,22 @@ public class UserMdl {
     
     // BEGIN: entity-specific fields
     
-//    @Size(min=3, message="Username yo, gotta be 3 or more")
-    @Size(min=3)
-    private String username;
+    private String firstName;
     
-//    @Size(min=3, message="pw yo, gotta be 3 or more")
+    private String lastName;
+    
+    private String email;
+    
+    private Date lastLogin;
+    
+//    @Size(min=3)
+//    private String username;
+    
     @Size(min=3)
     private String password;
     
     @Transient
-    private String passwordConfirmation;
+    private String passwordConfirm;
     
     // END: entity-specific fields
 
@@ -100,12 +106,36 @@ public class UserMdl {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	public String getPassword() {
@@ -116,12 +146,12 @@ public class UserMdl {
 		this.password = password;
 	}
 
-	public String getPasswordConfirmation() {
-		return passwordConfirmation;
+	public String getPasswordConfirm() {
+		return passwordConfirm;
 	}
 
-	public void setPasswordConfirmation(String passwordConfirmation) {
-		this.passwordConfirmation = passwordConfirmation;
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public List<RoleMdl> getRoleMdl() {
@@ -131,6 +161,8 @@ public class UserMdl {
 	public void setRoleMdl(List<RoleMdl> roleMdl) {
 		this.roleMdl = roleMdl;
 	}
+
+
     
     // end: getters and setters
     
